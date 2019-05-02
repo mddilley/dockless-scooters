@@ -26,6 +26,7 @@ class App extends Component {
           totalMeters += parseInt(trip.trip_distance);
       }
     });
+    console.log(totalMeters)
     const totalMiles = (totalMeters * 0.000621371).toFixed(2);
     this.setState({totalMiles: totalMiles})
   }
