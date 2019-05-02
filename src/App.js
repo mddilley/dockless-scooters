@@ -3,7 +3,8 @@ import "./App.css";
 import Miles from './components/Miles'
 import Trips from './components/Trips'
 import UniqueUnits from './components/UniqueUnits'
-import { CardDeck } from 'react-bootstrap'
+import DateBar from './components/DateBar'
+import { CardDeck, Container } from 'react-bootstrap'
 
 import axios from "axios";
 
@@ -15,6 +16,7 @@ class App extends Component {
       totalTrips: 0,
       totalMiles: 0,
       uniqueIdentified: 0,
+      type: "All",
     };
   }
 
@@ -30,7 +32,6 @@ class App extends Component {
           totalMeters += parseInt(trip.trip_distance);
       }
     });
-    console.log(totalMeters)
     const totalMiles = (totalMeters * 0.000621371).toFixed(2);
     this.setState({totalMiles: totalMiles})
   }
@@ -48,6 +49,10 @@ class App extends Component {
     this.calcUniqueIdentified();
   }
 
+  updateDateRange = (dates) => {
+    console.log(dates);
+  }
+
   componentDidMount() {
     // Here is a link to the API Documentation: https://dev.socrata.com/
     axios
@@ -63,14 +68,16 @@ class App extends Component {
       <div className="App">
         <h2>Dockless Scooters</h2>
 
-
+          <DateBar type={this.state.type} updateDateRange={this.updateDateRange}/>
+          <br/>
           {/* TODO: Display data here, maybe? Be creative! 🎉 */}
-          <CardDeck className="App-intro">
-            <Miles total={this.state.totalMiles}/>
-            <Trips total={this.state.totalTrips}/>
-            <UniqueUnits total={this.state.uniqueIdentified}/>
-          </CardDeck>
-
+          <Container>
+            <CardDeck className="App-intro">
+              <Miles total={this.state.totalMiles}/>
+              <Trips total={this.state.totalTrips}/>
+              <UniqueUnits total={this.state.uniqueIdentified}/>
+            </CardDeck>
+          </Container>
       </div>
     );
   }
