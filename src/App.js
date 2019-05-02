@@ -6,7 +6,34 @@ import axios from "axios";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      trips: [],
+      totalTrips: 0,
+      totalMiles: 0,
+      uniqueIdentified: 0,
+    };
+  }
+
+  calcTotalTrips = () => {
+    const totalTrips = this.state.trips.length;
+    this.setState({totalTrips: totalTrips})
+  }
+
+  calcTotalMiles = () => {
+    let totalMeters = 0;
+    this.state.trips.forEach(trip => {
+      if(trip.trip_distance){
+          totalMeters += parseInt(trip.trip_distance);
+      }
+    });
+    const totalMiles = (totalMeters * 0.000621371).toFixed(2);
+    this.setState({totalMiles: totalMiles})
+  }
+
+  calcUniqueIdentified = () => {
+    const array = this.state.trips.map(trip => parseInt(trip.trip_id))
+    const uniqueIdentified = new Set(array).size
+    this.setState({uniqueIdentified: uniqueIdentified})
   }
 
   componentDidMount() {
@@ -14,8 +41,11 @@ class App extends Component {
     axios
       .get("https://data.austintexas.gov/resource/7d8e-dm7r.json")
       .then(res => {
-        console.log(res);
-        // TODO: Decided how to store the response data.
+        const trips = res.data
+        this.setState({ trips: trips })
+        this.calcTotalTrips();
+        this.calcTotalMiles();
+        this.calcUniqueIdentified();
       });
   }
 
@@ -25,9 +55,10 @@ class App extends Component {
         <h2>Dockless Scooters</h2>
 
         <p className="App-intro">
-          {/* TODO: Delete line below */}
-          Open Dev Tools Console to see data.
           {/* TODO: Display data here, maybe? Be creative! 🎉 */}
+          Total Trips: {this.state.totalTrips}<br/>
+          Total Miles: {this.state.totalMiles}<br/>
+          Total Unique Units Identified: {this.state.uniqueIdentified}
         </p>
       </div>
     );
