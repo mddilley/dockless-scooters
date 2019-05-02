@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import "./App.css";
+import Miles from './components/Miles'
+import Trips from './components/Trips'
+import UniqueUnits from './components/UniqueUnits'
+import { CardDeck } from 'react-bootstrap'
 
 import axios from "axios";
 
@@ -55,12 +59,14 @@ class App extends Component {
       <div className="App">
         <h2>Dockless Scooters</h2>
 
-        <p className="App-intro">
+
           {/* TODO: Display data here, maybe? Be creative! 🎉 */}
-          Total Trips: {this.state.totalTrips}<br/>
-          Total Miles: {this.state.totalMiles}<br/>
-          Total Unique Units Identified: {this.state.uniqueIdentified}
-        </p>
+          <CardDeck className="App-intro">
+            <Miles total={this.state.totalMiles}/>
+            <Trips total={this.state.totalTrips}/>
+            <UniqueUnits total={this.state.uniqueIdentified}/>
+          </CardDeck>
+        
       </div>
     );
   }
