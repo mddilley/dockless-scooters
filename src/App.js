@@ -41,16 +41,20 @@ class App extends Component {
     this.setState({uniqueIdentified: uniqueIdentified})
   }
 
+  setTrips = (trips) => {
+    this.setState({ trips: trips })
+    this.calcTotalTrips();
+    this.calcTotalMiles();
+    this.calcUniqueIdentified();
+  }
+
   componentDidMount() {
     // Here is a link to the API Documentation: https://dev.socrata.com/
     axios
       .get("https://data.austintexas.gov/resource/7d8e-dm7r.json")
       .then(res => {
         const trips = res.data
-        this.setState({ trips: trips })
-        this.calcTotalTrips();
-        this.calcTotalMiles();
-        this.calcUniqueIdentified();
+        this.setTrips(trips);
       });
   }
 
@@ -66,7 +70,7 @@ class App extends Component {
             <Trips total={this.state.totalTrips}/>
             <UniqueUnits total={this.state.uniqueIdentified}/>
           </CardDeck>
-        
+
       </div>
     );
   }
