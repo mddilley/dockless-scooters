@@ -5,7 +5,7 @@ Display stats on dockless usage for a given date range.
 **Stats**
 - Total # of trips
 - Total # of miles
-- Total # of Unique Unites Identified
+- Total # of Unique Units Identified
 
 **Bonus: Filter by mode and write tests**
 
