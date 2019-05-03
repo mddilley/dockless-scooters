@@ -4,6 +4,7 @@ import Miles from './components/Miles'
 import Trips from './components/Trips'
 import UniqueUnits from './components/UniqueUnits'
 import DateBar from './components/DateBar'
+import TypeBar from './components/TypeBar'
 import { CardDeck, Container } from 'react-bootstrap'
 
 import axios from "axios";
@@ -20,14 +21,14 @@ class App extends Component {
     };
   }
 
-  calcTotalTrips = () => {
-    const totalTrips = this.state.trips.length;
+  calcTotalTrips = (trips) => {
+    const totalTrips = trips.length;
     this.setState({totalTrips: totalTrips})
   }
 
-  calcTotalMiles = () => {
+  calcTotalMiles = (trips) => {
     let totalMeters = 0;
-    this.state.trips.forEach(trip => {
+    trips.forEach(trip => {
       if(trip.trip_distance){
           totalMeters += parseInt(trip.trip_distance);
       }
@@ -36,18 +37,16 @@ class App extends Component {
     this.setState({totalMiles: totalMiles})
   }
 
-  calcUniqueIdentified = () => {
-    const array = this.state.trips.map(trip => parseInt(trip.trip_id))
+  calcUniqueIdentified = (trips) => {
+    const array = trips.map(trip => parseInt(trip.trip_id))
     const uniqueIdentified = new Set(array).size
     this.setState({uniqueIdentified: uniqueIdentified})
   }
 
-  setTrips = (trips) => {
-    this.setState({trips: trips}, () => {
-      this.calcTotalTrips();
-      this.calcTotalMiles();
-      this.calcUniqueIdentified();
-    })
+  setStats = (trips) => {
+    this.calcTotalTrips(trips);
+    this.calcTotalMiles(trips);
+    this.calcUniqueIdentified(trips);
   }
 
   updateDateRange = (dates) => {
@@ -58,7 +57,7 @@ class App extends Component {
       }
     });
     console.log(filteredTrips);
-    this.setTrips(filteredTrips);
+    this.setStats(filteredTrips);
   }
 
   componentDidMount() {
@@ -67,7 +66,8 @@ class App extends Component {
       .get("https://data.austintexas.gov/resource/7d8e-dm7r.json")
       .then(res => {
         const trips = res.data
-        this.setTrips(trips);
+        this.setState({trips: trips})
+        this.setStats(trips);
       });
   }
 
@@ -75,8 +75,8 @@ class App extends Component {
     return (
       <div className="App">
         <h2>Dockless Scooters</h2>
-
           <DateBar type={this.state.type} updateDateRange={this.updateDateRange}/>
+          <TypeBar />
           <br/>
           <Container>
             <CardDeck className="App-intro">
