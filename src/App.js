@@ -23,7 +23,7 @@ class App extends Component {
 
   calcTotalTrips = (trips) => {
     const totalTrips = trips.length;
-    this.setState({totalTrips: totalTrips})
+    this.setState({totalTrips: totalTrips});
   }
 
   calcTotalMiles = (trips) => {
@@ -79,7 +79,7 @@ class App extends Component {
   }
 
   setType = (type) => {
-    this.setState({type: type})
+    this.setState({type: type});
   }
 
   chooseIcon = () => {
@@ -97,8 +97,8 @@ class App extends Component {
     axios
       .get("https://data.austintexas.gov/resource/7d8e-dm7r.json")
       .then(res => {
-        const trips = res.data
-        this.setState({trips: trips})
+        const trips = res.data;
+        this.setState({trips: trips});
         this.setStats(trips);
       });
   }
@@ -112,8 +112,8 @@ class App extends Component {
           <br/>
           <Container>
             <CardDeck className="App-intro">
-              <Miles total={this.state.totalMiles} icon={this.chooseIcon()}/>
               <Trips total={this.state.totalTrips} icon={this.chooseIcon()}/>
+              <Miles total={this.state.totalMiles} icon={this.chooseIcon()}/>
               <UniqueUnits total={this.state.uniqueIdentified} icon={this.chooseIcon()}/>
             </CardDeck>
           </Container>

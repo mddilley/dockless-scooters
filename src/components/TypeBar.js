@@ -12,21 +12,21 @@ class TypeBar extends Component {
   handleChange = (event) => {
     const state = {};
     state["type"] = event.target.value;
-    this.setState(state, () =>{
-      this.props.setType(this.state.type)
+    this.setState(state, () => {
+      this.props.setType(this.state.type);
     });
   }
 
   render() {
     return (
       <Navbar bg="light">
-        <Navbar.Brand>{this.props.type} Dockless Type</Navbar.Brand>
+        <Navbar.Brand>Dockless Type</Navbar.Brand>
           <Form inline>
-          <FormControl onChange={this.handleChange} as="select">
-            <option>All</option>
-            <option>Scooter</option>
-            <option>Bicycle</option>
-          </FormControl>
+            <FormControl onChange={this.handleChange} as="select">
+              <option>All</option>
+              <option>Scooter</option>
+              <option>Bicycle</option>
+              </FormControl>
           </Form>
       </Navbar>
     )

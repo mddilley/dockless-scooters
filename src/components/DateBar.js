@@ -11,14 +11,14 @@ class DateBar extends Component {
   }
 
   handleChange = (event) => {
-    const state = {}
-    state[event.target.placeholder] = event.target.value
-    this.setState(state)
+    const state = {};
+    state[event.target.placeholder] = event.target.value;
+    this.setState(state);
   }
 
   filterClick = (event) => {
     event.preventDefault();
-    this.props.updateDateRange(this.state)
+    this.props.updateDateRange(this.state);
   }
 
   clearClick = (event) => {
