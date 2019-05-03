@@ -32,7 +32,7 @@ class DateBar extends Component {
   render() {
     return (
       <Navbar bg="light">
-        <Navbar.Brand>{this.props.type} Dockless Usage {this.state.startDate} {this.state.endDate}</Navbar.Brand>
+        <Navbar.Brand>{this.props.type} Dockless Usage</Navbar.Brand>
           <Form inline>
             <FormControl onSubmit={this.clearClick} onChange={this.handleChange} type="date" placeholder="startDate" className="mr-sm-2" />
               <span>to&nbsp;&nbsp;</span>

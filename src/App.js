@@ -43,14 +43,22 @@ class App extends Component {
   }
 
   setTrips = (trips) => {
-    this.setState({ trips: trips })
-    this.calcTotalTrips();
-    this.calcTotalMiles();
-    this.calcUniqueIdentified();
+    this.setState({trips: trips}, () => {
+      this.calcTotalTrips();
+      this.calcTotalMiles();
+      this.calcUniqueIdentified();
+    })
   }
 
   updateDateRange = (dates) => {
-    console.log(dates);
+    const filteredTrips = this.state.trips.filter(trip => {
+      if(trip.start_time){
+        const rideDate = new Date(trip.start_time.slice(0,10));
+        return (rideDate >= new Date(dates.startDate) && rideDate <= new Date(dates.endDate))
+      }
+    });
+    console.log(filteredTrips);
+    this.setTrips(filteredTrips);
   }
 
   componentDidMount() {
@@ -70,7 +78,6 @@ class App extends Component {
 
           <DateBar type={this.state.type} updateDateRange={this.updateDateRange}/>
           <br/>
-          {/* TODO: Display data here, maybe? Be creative! 🎉 */}
           <Container>
             <CardDeck className="App-intro">
               <Miles total={this.state.totalMiles}/>
