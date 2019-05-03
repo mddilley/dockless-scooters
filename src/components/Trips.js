@@ -6,6 +6,7 @@ function Trips(props) {
             <Card.Title className="card-title">
               {props.icon} Total Trips
             </Card.Title>
+            <br/>
             <Card.Text className="card-text">
               {props.total} trips
             </Card.Text>

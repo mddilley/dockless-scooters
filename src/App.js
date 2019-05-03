@@ -84,11 +84,11 @@ class App extends Component {
 
   chooseIcon = () => {
     if(this.state.type === "Bicycle"){
-      return <i class="fas fa-bicycle"></i>
+      return <i className="fas fa-bicycle"></i>
     } else if (this.state.type === "Scooter") {
-      return <i class="fas fa-bolt"></i>
+      return <i className="fas fa-bolt"></i>
     } else {
-      return <i class="fas fa-globe"></i>
+      return <i className="fas fa-globe"></i>
     }
   }
 

@@ -6,6 +6,7 @@ function UniqueUnits(props) {
             <Card.Title className="card-title">
               {props.icon} Unique Units Identified
             </Card.Title>
+            <br/>
             <Card.Text className="card-text">
               {props.total} Unique Units
             </Card.Text>
