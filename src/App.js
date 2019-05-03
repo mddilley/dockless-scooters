@@ -34,13 +34,13 @@ class App extends Component {
       }
     });
     const totalMiles = (totalMeters * 0.000621371).toFixed(2);
-    this.setState({totalMiles: totalMiles})
+    this.setState({totalMiles: totalMiles});
   }
 
   calcUniqueIdentified = (trips) => {
-    const array = trips.map(trip => parseInt(trip.trip_id))
-    const uniqueIdentified = new Set(array).size
-    this.setState({uniqueIdentified: uniqueIdentified})
+    const array = trips.map(trip => parseInt(trip.trip_id));
+    const uniqueIdentified = new Set(array).size;
+    this.setState({uniqueIdentified: uniqueIdentified});
   }
 
   setStats = (trips) => {
@@ -50,14 +50,36 @@ class App extends Component {
   }
 
   updateDateRange = (dates) => {
-    const filteredTrips = this.state.trips.filter(trip => {
-      if(trip.start_time){
-        const rideDate = new Date(trip.start_time.slice(0,10));
-        return (rideDate >= new Date(dates.startDate) && rideDate <= new Date(dates.endDate))
-      }
-    });
-    console.log(filteredTrips);
-    this.setStats(filteredTrips);
+    let filteredDateTrips = [];
+    if(dates.endDate !== "" && dates.startDate !== ""){
+      filteredDateTrips = this.state.trips.filter(trip => {
+        if(trip.start_time){
+          const rideDate = new Date(trip.start_time.slice(0,10));
+          return (rideDate >= new Date(dates.startDate) && rideDate <= new Date(dates.endDate));
+        } else {
+          return false;
+        }
+      });
+    } else {
+      filteredDateTrips = this.state.trips;
+    }
+    if(this.state.type === "All") {
+      this.setStats(filteredDateTrips);
+    } else {
+      const filteredTypeTrips = filteredDateTrips.filter(trip => {
+        if(trip.vehicle_type){
+          const vehicleType = trip.vehicle_type;
+          return vehicleType.toLowerCase() === this.state.type.toLowerCase();
+        } else {
+          return false;
+        }
+      });
+      this.setStats(filteredTypeTrips);
+    }
+  }
+
+  setType = (type) => {
+    this.setState({type: type})
   }
 
   componentDidMount() {
@@ -74,9 +96,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h2>Dockless Scooters</h2>
-          <DateBar type={this.state.type} updateDateRange={this.updateDateRange}/>
-          <TypeBar />
+        <h2>Dockless Vehicles ({this.state.type})</h2>
+          <TypeBar setType={this.setType}/>
+          <DateBar updateDateRange={this.updateDateRange}/>
           <br/>
           <Container>
             <CardDeck className="App-intro">

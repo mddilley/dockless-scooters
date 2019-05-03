@@ -2,7 +2,7 @@ import React from 'react'
 import { Card } from 'react-bootstrap'
 
 function UniqueUnits(props) {
-  return <Card style={{ width: '18rem' }}>
+  return <Card className="text-left card" style={{ width: '18rem' }}>
             <Card.Title className="card-title">
               Unique Units Identified
             </Card.Title>

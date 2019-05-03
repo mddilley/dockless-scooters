@@ -10,9 +10,11 @@ class TypeBar extends Component {
   }
 
   handleChange = (event) => {
-    const state = {}
-    state[event.target.placeholder] = event.target.value
-    this.setState(state)
+    const state = {};
+    state["type"] = event.target.value;
+    this.setState(state, () =>{
+      this.props.setType(this.state.type)
+    });
   }
 
   render() {
@@ -23,7 +25,7 @@ class TypeBar extends Component {
           <FormControl onChange={this.handleChange} as="select">
             <option>All</option>
             <option>Scooter</option>
-            <option>Bike</option>
+            <option>Bicycle</option>
           </FormControl>
           </Form>
       </Navbar>
