@@ -36,6 +36,7 @@
 .card {
   padding-top: 10px;
   padding-left: 10px;
+  box-shadow: 3px 3px 3px grey;
 }
 
 .card:hover {

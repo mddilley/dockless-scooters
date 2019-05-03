@@ -82,6 +82,16 @@ class App extends Component {
     this.setState({type: type})
   }
 
+  chooseIcon = () => {
+    if(this.state.type === "Bicycle"){
+      return <i class="fas fa-bicycle"></i>
+    } else if (this.state.type === "Scooter") {
+      return <i class="fas fa-bolt"></i>
+    } else {
+      return <i class="fas fa-globe"></i>
+    }
+  }
+
   componentDidMount() {
     // Here is a link to the API Documentation: https://dev.socrata.com/
     axios
@@ -96,15 +106,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h2>Dockless Vehicles ({this.state.type})</h2>
+        <h1>Dockless Vehicles ({this.state.type})</h1>
           <TypeBar setType={this.setType}/>
           <DateBar updateDateRange={this.updateDateRange}/>
           <br/>
           <Container>
             <CardDeck className="App-intro">
-              <Miles total={this.state.totalMiles}/>
-              <Trips total={this.state.totalTrips}/>
-              <UniqueUnits total={this.state.uniqueIdentified}/>
+              <Miles total={this.state.totalMiles} icon={this.chooseIcon()}/>
+              <Trips total={this.state.totalTrips} icon={this.chooseIcon()}/>
+              <UniqueUnits total={this.state.uniqueIdentified} icon={this.chooseIcon()}/>
             </CardDeck>
           </Container>
       </div>

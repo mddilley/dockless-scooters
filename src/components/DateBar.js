@@ -16,7 +16,8 @@ class DateBar extends Component {
     this.setState(state)
   }
 
-  filterClick = () => {
+  filterClick = (event) => {
+    event.preventDefault();
     this.props.updateDateRange(this.state)
   }
 
