@@ -6,8 +6,8 @@ import UniqueUnits from './components/UniqueUnits'
 import DateBar from './components/DateBar'
 import TypeBar from './components/TypeBar'
 import { CardDeck, Container } from 'react-bootstrap'
-
 import axios from "axios";
+let moment = require('moment');
 
 class App extends Component {
   constructor(props) {
@@ -18,6 +18,8 @@ class App extends Component {
       totalMiles: 0,
       uniqueIdentified: 0,
       type: "All",
+      startDate: `${moment().subtract(7, 'days').format('YYYY-MM-DD')}`,
+      endDate: moment().format('YYYY-MM-DD'),
     };
   }
 
@@ -49,37 +51,17 @@ class App extends Component {
     this.calcUniqueIdentified(trips);
   }
 
-  updateDateRange = (dates) => {
-    let filteredDateTrips = [];
-    if(dates.endDate !== "" && dates.startDate !== ""){
-      filteredDateTrips = this.state.trips.filter(trip => {
-        if(trip.start_time){
-          const rideDate = new Date(trip.start_time.slice(0,10));
-          return (rideDate >= new Date(dates.startDate) && rideDate <= new Date(dates.endDate));
-        } else {
-          return false;
-        }
-      });
-    } else {
-      filteredDateTrips = this.state.trips;
-    }
-    if(this.state.type === "All") {
-      this.setStats(filteredDateTrips);
-    } else {
-      const filteredTypeTrips = filteredDateTrips.filter(trip => {
-        if(trip.vehicle_type){
-          const vehicleType = trip.vehicle_type;
-          return vehicleType.toLowerCase() === this.state.type.toLowerCase();
-        } else {
-          return false;
-        }
-      });
-      this.setStats(filteredTypeTrips);
-    }
+  updateDateRange = (date) => {
+    const updatedDate = date;
+    this.setState( updatedDate, () => {
+      this.getData();
+    });
   }
 
   setType = (type) => {
-    this.setState({type: type});
+    this.setState({type: type}, () => {
+      this.getData();
+    });
   }
 
   chooseIcon = () => {
@@ -92,10 +74,17 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
-    // Here is a link to the API Documentation: https://dev.socrata.com/
+  getData = () => {
+    let url = "";
+    if(this.state.type === "All") {
+      url = `https://data.austintexas.gov/resource/7d8e-dm7r.json` +
+        `?$limit=5000000&$where=start_time between '${this.state.startDate}T00:00:01' and '${this.state.endDate}T11:59:59'`
+    } else {
+      url = `https://data.austintexas.gov/resource/7d8e-dm7r.json` +
+        `?$limit=5000000&vehicle_type='${this.state.type.toLowerCase()}'&$where=start_time between '${this.state.startDate}T00:00:01' and '${this.state.endDate}T11:59:59'`
+    }
     axios
-      .get("https://data.austintexas.gov/resource/7d8e-dm7r.json")
+      .get(url)
       .then(res => {
         const trips = res.data;
         this.setState({trips: trips});
@@ -103,12 +92,17 @@ class App extends Component {
       });
   }
 
+  componentDidMount() {
+    // Here is a link to the API Documentation: https://dev.socrata.com/
+    this.getData();
+  }
+
   render() {
     return (
       <div className="App">
         <h1>Dockless Vehicles ({this.state.type})</h1>
           <TypeBar setType={this.setType}/>
-          <DateBar updateDateRange={this.updateDateRange}/>
+          <DateBar startDate={this.state.startDate} endDate={this.state.endDate} updateDateRange={this.updateDateRange}/>
           <br/>
           <Container>
             <CardDeck className="App-intro">
