@@ -55,7 +55,7 @@ class App extends Component {
       }
     });
     const avgMinutes = ((totalSeconds / 60) / this.state.totalTrips).toFixed(2)
-    debugger
+    this.setState({avgTime: avgMinutes});
   }
 
   setStats = (trips) => {

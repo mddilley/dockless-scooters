@@ -8,7 +8,7 @@ function Duration(props) {
             </Card.Title>
             <br/>
             <Card.Text className="card-text">
-              {props.total} hours
+              {props.total} min.
             </Card.Text>
           </Card>
 }
