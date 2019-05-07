@@ -21,6 +21,7 @@ class App extends Component {
       type: "All",
       startDate: `${moment().subtract(7, 'days').format('YYYY-MM-DD')}`,
       endDate: moment().format('YYYY-MM-DD'),
+      avgTime: 0,
     };
   }
 
@@ -50,9 +51,10 @@ class App extends Component {
     let totalSeconds = 0;
     trips.forEach(trip => {
       if(trip.trip_duration){
-          totalMeters += parseInt(trip.trip_duration);
+          totalSeconds += parseInt(trip.trip_duration);
       }
     });
+    const avgMinutes = ((totalSeconds / 60) / this.state.totalTrips).toFixed(2)
     debugger
   }
 
