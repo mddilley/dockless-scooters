@@ -48,9 +48,7 @@ class DateBar extends Component {
           <Form inline>
             <FormControl value={this.state.startDate} onSubmit={this.clearClick} onChange={this.handleChange} type="date" placeholder="startDate" className="mr-sm-2" />
               <span>to&nbsp;&nbsp;</span>
-            <FormControl defaultValue={this.state.endDate} onChange={this.handleChange} type="date" placeholder="endDate" className="mr-sm-2" />
-            <Button onClick={this.filterClick} className="btn btn-primary">Filter</Button>&nbsp;&nbsp;
-            <Button type="submit" className="btn btn-danger">Clear</Button>
+            <FormControl value={this.state.endDate} onChange={this.handleChange} type="date" placeholder="endDate" className="mr-sm-2" />
           </Form>
       </Navbar>
     )
