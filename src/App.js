@@ -5,6 +5,7 @@ import Trips from './components/Trips'
 import UniqueUnits from './components/UniqueUnits'
 import DateBar from './components/DateBar'
 import TypeBar from './components/TypeBar'
+import Duration from './components/Duration'
 import { CardDeck, Container } from 'react-bootstrap'
 import axios from "axios";
 let moment = require('moment');
@@ -45,10 +46,21 @@ class App extends Component {
     this.setState({uniqueIdentified: uniqueIdentified});
   }
 
+  calcDuration = (trips) => {
+    let totalSeconds = 0;
+    trips.forEach(trip => {
+      if(trip.trip_duration){
+          totalMeters += parseInt(trip.trip_duration);
+      }
+    });
+    debugger
+  }
+
   setStats = (trips) => {
     this.calcTotalTrips(trips);
     this.calcTotalMiles(trips);
     this.calcUniqueIdentified(trips);
+    this.calcDuration(trips);
   }
 
   updateDateRange = (date) => {
@@ -109,6 +121,7 @@ class App extends Component {
               <Trips total={this.state.totalTrips} icon={this.chooseIcon()}/>
               <Miles total={this.state.totalMiles} icon={this.chooseIcon()}/>
               <UniqueUnits total={this.state.uniqueIdentified} icon={this.chooseIcon()}/>
+              <Duration total={this.state.avgTime} icon={this.chooseIcon()} />
             </CardDeck>
           </Container>
       </div>
