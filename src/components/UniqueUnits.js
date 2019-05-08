@@ -8,7 +8,7 @@ function UniqueUnits(props) {
             </Card.Title>
             <br/>
             <Card.Text className="card-text">
-              {props.total} Unique Units
+              {props.total} Units
             </Card.Text>
           </Card>
 }
