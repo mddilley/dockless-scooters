@@ -113,9 +113,8 @@ class App extends Component {
       .get(url)
       .then(res => {
         const trips = res.data;
-        this.setState({trips: trips});
+        this.setState({trips: trips, loading: false});
         this.setStats(trips);
-        this.setState({loading: false});
       });
   }
 
