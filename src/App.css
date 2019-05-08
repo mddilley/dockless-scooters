@@ -50,3 +50,7 @@
 .card-text {
   font-size: 2.5em;
 }
+
+.loader {
+  width: 50px;
+}

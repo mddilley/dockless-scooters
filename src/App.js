@@ -22,6 +22,7 @@ class App extends Component {
       startDate: `${moment().subtract(7, 'days').format('YYYY-MM-DD')}`,
       endDate: moment().format('YYYY-MM-DD'),
       avgTime: 0,
+      loading: false,
     };
   }
 
@@ -88,7 +89,18 @@ class App extends Component {
     }
   }
 
+  clearStats = () => {
+    this.setState({
+      loading: true,
+      totalTrips: 0,
+      totalMiles: 0,
+      uniqueIdentified: 0,
+      avgTime: 0,
+    })
+  }
+
   getData = () => {
+    this.clearStats();
     let url = "";
     if(this.state.type === "All") {
       url = `https://data.austintexas.gov/resource/7d8e-dm7r.json` +
@@ -103,6 +115,7 @@ class App extends Component {
         const trips = res.data;
         this.setState({trips: trips});
         this.setStats(trips);
+        this.setState({loading: false});
       });
   }
 
@@ -112,12 +125,17 @@ class App extends Component {
   }
 
   render() {
+    let loader = "";
+    if(this.state.loading === true){
+      loader = <><img className="loader" src="loader.gif" alt="loader"></img><br/><br/></>
+    }
     return (
       <div className="App">
         <h1>Dockless Vehicles ({this.state.type})</h1>
           <TypeBar setType={this.setType}/>
           <DateBar startDate={this.state.startDate} endDate={this.state.endDate} updateDateRange={this.updateDateRange}/>
           <br/>
+          {loader}
           <Container>
             <CardDeck className="App-intro">
               <Trips total={this.state.totalTrips} icon={this.chooseIcon()}/>
