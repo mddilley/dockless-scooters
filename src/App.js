@@ -104,7 +104,7 @@ class App extends Component {
     let url = "";
     if(this.state.type === "All") {
       url = `https://data.austintexas.gov/resource/7d8e-dm7r.json` +
-        `?$limit=5000000&$where=start_time between '${this.state.startDate}T00:00:01' and '${this.state.endDate}T11:59:59'`
+        `?$limit=5000000&$where=start_time between '${this.state.startDate}T00:00:01' and '${this.state.endDate}T23:59:59'`
     } else {
       url = `https://data.austintexas.gov/resource/7d8e-dm7r.json` +
         `?$limit=5000000&vehicle_type='${this.state.type.toLowerCase()}'&$where=start_time between '${this.state.startDate}T00:00:01' and '${this.state.endDate}T11:59:59'`
